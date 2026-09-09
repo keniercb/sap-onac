@@ -263,6 +263,60 @@ async function seedNomenclators() {
     });
   }
   console.log('  ✓ 10 causas de movimiento cargadas (4 altas + 4 bajas + 2 reincorporaciones SMA)');
+
+  // Tipos de necesidad (observación de Sandra Moya)
+  for (const n of [
+    { code: 'SALUD', name: 'Salud', description: 'Necesidades de atención médica, tratamiento o medicamentos', sortOrder: 1 },
+    { code: 'ELECTRODOMESTICOS', name: 'Electrodomésticos', description: 'Necesidades de equipos electrodomésticos', sortOrder: 2 },
+    { code: 'OTRAS', name: 'Otras', description: 'Construcción, reparación, asistencia social, etc.', sortOrder: 3 },
+  ]) {
+    await prisma.catNeedType.upsert({
+      where: { code: n.code },
+      update: { name: n.name, description: n.description, sortOrder: n.sortOrder },
+      create: n,
+    });
+  }
+  console.log('  ✓ 3 tipos de necesidad cargados (salud, electrodomésticos, otras)');
+
+  // Electrodomésticos
+  for (const e of [
+    { code: 'REFRIGERADOR', name: 'Refrigerador', sortOrder: 1 },
+    { code: 'COCINA', name: 'Cocina', sortOrder: 2 },
+    { code: 'VENTILADOR', name: 'Ventilador', sortOrder: 3 },
+    { code: 'TELEVISOR', name: 'Televisor', sortOrder: 4 },
+    { code: 'LAVADORA', name: 'Lavadora', sortOrder: 5 },
+    { code: 'PLANCHA', name: 'Plancha', sortOrder: 6 },
+    { code: 'RADIO', name: 'Radio', sortOrder: 7 },
+    { code: 'OTRO', name: 'Otro', sortOrder: 99 },
+  ]) {
+    await prisma.catElectrodomestic.upsert({
+      where: { code: e.code },
+      update: { name: e.name, sortOrder: e.sortOrder },
+      create: e,
+    });
+  }
+  console.log('  ✓ 8 tipos de electrodomésticos cargados');
+
+  // Enfermedades crónicas (para Fase 4 - Dispensarización)
+  for (const d of [
+    { code: 'DIABETES_MELLITUS', name: 'Diabetes Mellitus', sortOrder: 1 },
+    { code: 'HIPERTENSION_ARTERIAL', name: 'Hipertensión Arterial', sortOrder: 2 },
+    { code: 'CARDIOPATIA_ISQUEMICA', name: 'Cardiopatía Isquémica', sortOrder: 3 },
+    { code: 'ENF_CEREBROVASCULAR', name: 'Enfermedad Cerebrovascular', sortOrder: 4 },
+    { code: 'EPOC', name: 'EPOC (Enfermedad Pulmonar Obstructiva Crónica)', sortOrder: 5 },
+    { code: 'ASMA_BRONQUIAL', name: 'Asma Bronquial', sortOrder: 6 },
+    { code: 'ARTROSIS', name: 'Artrosis', sortOrder: 7 },
+    { code: 'CANCER', name: 'Cáncer', sortOrder: 8 },
+    { code: 'INSUFICIENCIA_RENAL', name: 'Insuficiencia Renal', sortOrder: 9 },
+    { code: 'OTRA', name: 'Otra', sortOrder: 99 },
+  ]) {
+    await prisma.catDisease.upsert({
+      where: { code: d.code },
+      update: { name: d.name, sortOrder: d.sortOrder },
+      create: d,
+    });
+  }
+  console.log('  ✓ 10 enfermedades crónicas cargadas');
 }
 
 async function seedAdminUser() {

@@ -15,6 +15,8 @@ import { UsersModule } from '@modules/users/users.module';
 import { PensionersModule } from '@modules/pensioners/pensioners.module';
 import { CatalogsModule } from '@modules/catalogs/catalogs.module';
 import { MovementsModule } from '@modules/movements/movements.module';
+import { NeedsModule } from '@modules/needs/needs.module';
+import { SolvedProblemsModule } from '@modules/solved-problems/solved-problems.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { MovementsModule } from '@modules/movements/movements.module';
     PensionersModule,
     CatalogsModule,
     MovementsModule,
+    NeedsModule,
+    SolvedProblemsModule,
   ],
   providers: [
     {

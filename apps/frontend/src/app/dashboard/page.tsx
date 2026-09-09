@@ -3,6 +3,7 @@ import Link from 'next/link';
 export default function DashboardPage() {
   const modules = [
     { href: '/pensioners', title: 'Pensionados', description: 'Gestión de combatientes y pensionados', icon: '👥' },
+    { href: '/needs', title: 'Atención al Combatiente', description: 'Necesidades y problemas resueltos', icon: '🤝' },
     { href: '/catalogs', title: 'Nomencladores', description: 'Administración de catálogos', icon: '📚' },
     { href: '/admin', title: 'Administración', description: 'Usuarios, roles, auditoría y configuración', icon: '⚙️' },
     { href: '/admin/users', title: 'Usuarios', description: 'Gestión de usuarios y roles', icon: '👤' },

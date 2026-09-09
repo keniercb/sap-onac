@@ -24,6 +24,9 @@ const CATALOG_REGISTRY = {
   housing_type: { model: 'catHousingType', name: 'Tipos de vivienda', hierarchical: false },
   property_type: { model: 'catPropertyType', name: 'Tipos de propiedad', hierarchical: false },
   movement_cause: { model: 'catMovementCause', name: 'Causas de movimiento', hierarchical: false },
+  need_type: { model: 'catNeedType', name: 'Tipos de necesidad', hierarchical: false },
+  electrodomestic: { model: 'catElectrodomestic', name: 'Electrodomésticos', hierarchical: false },
+  disease: { model: 'catDisease', name: 'Enfermedades crónicas', hierarchical: false },
 } as const;
 
 export type CatalogCode = keyof typeof CATALOG_REGISTRY;
