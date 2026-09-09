@@ -3,7 +3,7 @@
   "ui": "tui",
   "globalDependencies": ["**/.env.*local", ".env"],
   "globalEnv": ["NODE_ENV", "CI"],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["src/**", "package.json", "tsconfig.json", "tsconfig.build.json"],
