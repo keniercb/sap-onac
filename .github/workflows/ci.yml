@@ -20,19 +20,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout
+      - name: Checkout
         uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        with:
+          fetch-depth: 0
 
-      - name: 🟢 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
-        with: { node-version: '20.11' }
+        with:
+          node-version: '20.11'
 
-      - name: 📦 Setup pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with: { version: 9, run_install: false }
+        with:
+          version: 9
+          run_install: false
 
-      - name: 💾 Cache pnpm store
+      - name: Cache pnpm store
         uses: actions/cache@v4
         with:
           path: |
@@ -45,22 +49,22 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
 
-      - name: 📥 Install dependencies
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 🔍 Lint
+      - name: Lint
         run: pnpm lint
 
-      - name: 🧩 Typecheck
+      - name: Typecheck
         run: pnpm typecheck
 
-      - name: 🧪 Test
+      - name: Test
         run: pnpm test -- --coverage --passWithNoTests
 
-      - name: 🏗️ Build
+      - name: Build
         run: pnpm build
 
-      - name: 📊 Upload coverage
+      - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -85,16 +89,18 @@ jobs:
         language: [javascript, typescript]
 
     steps:
-      - name: 📥 Checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🔬 Initialize CodeQL
+      - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
-        with: { languages: ${{ matrix.language }} }
+        with:
+          languages: ${{ matrix.language }}
 
-      - name: 🛡️ Autobuild
+      - name: Autobuild
         uses: github/codeql-action/autobuild@v3
 
-      - name: 🔎 Perform CodeQL Analysis
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
-        with: { category: "/language:${{ matrix.language }}" }
+        with:
+          category: /language:${{ matrix.language }}
