@@ -222,6 +222,47 @@ async function seedNomenclators() {
     });
   }
   console.log('  ✓ 4 tipos de propiedad cargados');
+
+  // Causas de movimiento (altas)
+  for (const c of [
+    { code: 'ALTA_INICIAL', name: 'Alta inicial', appliesTo: 'alta', sortOrder: 1 },
+    { code: 'ALTA_POR_REINGRESO', name: 'Alta por reingreso al sistema', appliesTo: 'alta', sortOrder: 2 },
+    { code: 'ALTA_POR_TRASLADO', name: 'Alta por traslado de otra provincia', appliesTo: 'alta', sortOrder: 3 },
+    { code: 'ALTA_POR_MAYORIA_EDAD', name: 'Alta por mayoría de edad (familiares de caídos)', appliesTo: 'alta', sortOrder: 4 },
+  ]) {
+    await prisma.catMovementCause.upsert({
+      where: { code: c.code },
+      update: { name: c.name, appliesTo: c.appliesTo, sortOrder: c.sortOrder },
+      create: c,
+    });
+  }
+
+  // Causas de movimiento (bajas)
+  for (const c of [
+    { code: 'BAJA_POR_FALLECIMIENTO', name: 'Baja por fallecimiento', appliesTo: 'baja', sortOrder: 1 },
+    { code: 'BAJA_POR_TRASLADO', name: 'Baja por traslado a otra provincia', appliesTo: 'baja', sortOrder: 2 },
+    { code: 'BAJA_POR_RENUNCIA', name: 'Baja por renuncia voluntaria', appliesTo: 'baja', sortOrder: 3 },
+    { code: 'BAJA_POR_ERROR_REGISTRO', name: 'Baja por error de registro (duplicado)', appliesTo: 'baja', sortOrder: 4 },
+  ]) {
+    await prisma.catMovementCause.upsert({
+      where: { code: c.code },
+      update: { name: c.name, appliesTo: c.appliesTo, sortOrder: c.sortOrder },
+      create: c,
+    });
+  }
+
+  // Causas de reincorporación al SMA
+  for (const c of [
+    { code: 'REINCORP_SMA_VOLUNTARIA', name: 'Reincorporación voluntaria al SMA', appliesTo: 'reincorporacion_sma', sortOrder: 1 },
+    { code: 'REINCORP_SMA_MOVILIZACION', name: 'Reincorporación al SMA por movilización', appliesTo: 'reincorporacion_sma', sortOrder: 2 },
+  ]) {
+    await prisma.catMovementCause.upsert({
+      where: { code: c.code },
+      update: { name: c.name, appliesTo: c.appliesTo, sortOrder: c.sortOrder },
+      create: c,
+    });
+  }
+  console.log('  ✓ 10 causas de movimiento cargadas (4 altas + 4 bajas + 2 reincorporaciones SMA)');
 }
 
 async function seedAdminUser() {

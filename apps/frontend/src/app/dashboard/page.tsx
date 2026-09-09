@@ -4,7 +4,9 @@ export default function DashboardPage() {
   const modules = [
     { href: '/pensioners', title: 'Pensionados', description: 'Gestión de combatientes y pensionados', icon: '👥' },
     { href: '/catalogs', title: 'Nomencladores', description: 'Administración de catálogos', icon: '📚' },
-    { href: '/admin', title: 'Administración', description: 'Usuarios, roles y configuración', icon: '⚙️' },
+    { href: '/admin', title: 'Administración', description: 'Usuarios, roles, auditoría y configuración', icon: '⚙️' },
+    { href: '/admin/users', title: 'Usuarios', description: 'Gestión de usuarios y roles', icon: '👤' },
+    { href: '/admin/audit-log', title: 'Auditoría', description: 'Log inmutable de operaciones', icon: '📜' },
   ];
 
   return (

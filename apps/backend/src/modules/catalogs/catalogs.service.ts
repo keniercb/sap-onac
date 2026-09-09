@@ -23,6 +23,7 @@ const CATALOG_REGISTRY = {
   pension_type: { model: 'catPensionType', name: 'Tipo de pensión', hierarchical: false },
   housing_type: { model: 'catHousingType', name: 'Tipos de vivienda', hierarchical: false },
   property_type: { model: 'catPropertyType', name: 'Tipos de propiedad', hierarchical: false },
+  movement_cause: { model: 'catMovementCause', name: 'Causas de movimiento', hierarchical: false },
 } as const;
 
 export type CatalogCode = keyof typeof CATALOG_REGISTRY;

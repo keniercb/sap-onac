@@ -38,10 +38,33 @@ export class AuthService {
     expiresIn: number;
     user: AuthenticatedUser;
   }> {
-    const user = await this.usersService.findByUsername(dto.username);
-    if (!user || !user.isActive) {
+    const userRecord = await this.usersService.findByUsername(dto.username);
+    if (!userRecord || !(userRecord as { isActive?: boolean }).isActive) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
+    const user = userRecord as unknown as {
+      id: string;
+      username: string;
+      isActive: boolean;
+      passwordHash: string;
+      twoFactorEnabled: boolean;
+      twoFactorSecret: string | null;
+      fullName: string;
+      email: string | null;
+      roleCodes: string[];
+      territories: Array<{
+        roleCode: string;
+        provinceId: bigint | null;
+        municipalityId: bigint | null;
+      }>;
+      forcePasswordChange: boolean;
+      lastLoginAt: Date | null;
+    };
+    // Mapear roleCodes → roles para compatibilidad con issueTokens
+    const userWithRoles = {
+      ...user,
+      roles: user.roleCodes,
+    };
 
     const lockKey = `lockout:${dto.username}`;
     const attempts = Number(await this.redis.get(lockKey)) || 0;
@@ -74,7 +97,7 @@ export class AuthService {
     }
 
     await this.redis.del(lockKey);
-    return this.issueTokens(user);
+    return this.issueTokens(userWithRoles);
   }
 
   async refresh(dto: RefreshTokenDto): Promise<{ accessToken: string; expiresIn: number }> {
@@ -102,8 +125,9 @@ export class AuthService {
     userId: string,
     dto: ChangePasswordDto,
   ): Promise<{ success: boolean }> {
-    const user = await this.usersService.findById(userId);
-    if (!user) throw new UnauthorizedException('Usuario no encontrado');
+    const userRecord = await this.usersService.findById(userId);
+    if (!userRecord) throw new UnauthorizedException('Usuario no encontrado');
+    const user = userRecord as { id: string; passwordHash: string };
 
     const valid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
     if (!valid) {
@@ -123,8 +147,10 @@ export class AuthService {
     userId: string,
     dto: Verify2FADto,
   ): Promise<{ verified: boolean }> {
-    const user = await this.usersService.findById(userId);
-    if (!user?.twoFactorSecret) {
+    const userRecord = await this.usersService.findById(userId);
+    if (!userRecord) throw new UnauthorizedException('Usuario no encontrado');
+    const user = userRecord as { twoFactorSecret: string | null };
+    if (!user.twoFactorSecret) {
       throw new UnauthorizedException('2FA no configurado');
     }
     const valid = authenticator.verify({

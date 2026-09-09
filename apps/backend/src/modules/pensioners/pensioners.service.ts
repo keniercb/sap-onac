@@ -17,6 +17,10 @@ export interface PensionerQuery {
   search?: string;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
+  territoryFilter?: {
+    provinces?: number[] | null;
+    municipalities?: number[] | null;
+  };
 }
 
 /**
@@ -64,6 +68,40 @@ export class PensionersService {
           }
         : {}),
     };
+
+    // Aplicar filtro territorial automático (TerritoryInterceptor)
+    if (params.territoryFilter) {
+      const tf = params.territoryFilter;
+      if (tf.provinces === null && tf.municipalities === null) {
+        // Admin o Auditor: sin restricción
+      } else {
+        const orClauses: Prisma.PensionerWhereInput[] = [];
+        if (tf.provinces && tf.provinces.length > 0) {
+          orClauses.push({
+            provinceId: { in: tf.provinces.map((p) => BigInt(p)) },
+            municipalityId: tf.municipalities && tf.municipalities.length > 0
+              ? undefined
+              : undefined,
+          });
+        }
+        if (tf.municipalities && tf.municipalities.length > 0) {
+          orClauses.push({
+            municipalityId: { in: tf.municipalities.map((m) => BigInt(m)) },
+          });
+        }
+        if (orClauses.length > 0) {
+          (where as Prisma.PensionerWhereInput).AND = [
+            ...(Array.isArray((where as Prisma.PensionerWhereInput).AND)
+              ? ((where as Prisma.PensionerWhereInput).AND as Prisma.PensionerWhereInput[])
+              : []),
+            { OR: orClauses },
+          ];
+        } else {
+          // Usuario con territorio pero sin asignación concreta → no ve nada
+          (where as Prisma.PensionerWhereInput).id = { in: [] };
+        }
+      }
+    }
 
     const sortBy = params.sortBy ?? 'createdAt';
     const sortOrder = params.sortOrder ?? 'desc';
