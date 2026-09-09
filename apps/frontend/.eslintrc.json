@@ -1,0 +1,5 @@
+{
+  "extends": ["next/core-web-vitals", "@sap-onac/shared-config/eslint-base.js"],
+  "rules": { "@next/next/no-html-link-for-pages": "off" },
+  "ignorePatterns": [".next/", "out/", "build/", "coverage/"]
+}

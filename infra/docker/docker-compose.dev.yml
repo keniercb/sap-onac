@@ -1,0 +1,74 @@
+# SAP-ONAC — Docker Compose para entorno de desarrollo local
+name: sap-onac-dev
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: sap-onac-mysql-dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: sap_onac_dev
+      MYSQL_DATABASE: sap_onac_dev
+      MYSQL_USER: sap_onac
+      MYSQL_PASSWORD: sap_onac_dev
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-psap_onac_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks: [sap-onac-net]
+
+  redis:
+    image: redis:7-alpine
+    container_name: sap-onac-redis-dev
+    restart: unless-stopped
+    ports: ["6379:6379"]
+    volumes: [redis_data:/data]
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks: [sap-onac-net]
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: sap-onac-mailhog-dev
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks: [sap-onac-net]
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: sap-onac-pma-dev
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: sap_onac_dev
+      UPLOAD_LIMIT: 100M
+    ports: ["8081:80"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks: [sap-onac-net]
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  sap-onac-net:
+    driver: bridge

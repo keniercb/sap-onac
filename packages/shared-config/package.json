@@ -1,0 +1,8 @@
+{
+  "name": "@sap-onac/shared-config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "files": ["eslint-base.js", "prettier-base.js", "tsconfig.base.json", "tsconfig.next.json", "tsconfig.nestjs.json"],
+  "license": "MIT"
+}
