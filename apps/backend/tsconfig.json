@@ -1,5 +1,12 @@
 {
   "extends": "@sap-onac/shared-config/tsconfig.nestjs.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"],
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
