@@ -4,8 +4,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf dist *.tsbuildinfo .turbo coverage",
-    "prebuild": "rimraf dist *.tsbuildinfo",
+    "clean": "rimraf dist tsconfig.build.tsbuildinfo .turbo coverage",
+    "prebuild": "rimraf dist tsconfig.build.tsbuildinfo",
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "build:check": "tsc -p tsconfig.build.json --listEmittedFiles",
     "dev": "nest start --watch",

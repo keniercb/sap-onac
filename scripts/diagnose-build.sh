@@ -30,7 +30,7 @@ echo ""
 
 echo "4. Limpiando build previo..."
 cd $BACKEND_DIR
-rm -rf dist *.tsbuildinfo .turbo coverage
+rm -rf dist tsconfig.build.tsbuildinfo .turbo coverage 2>/dev/null
 echo "   ✓ Limpieza completada"
 echo ""
 
