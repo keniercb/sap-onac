@@ -6,7 +6,7 @@ Sistema web para el registro y control de pensionados de la **Oficina Nacional d
 
 | Capa | Tecnología |
 |---|---|
-| **Backend** | NestJS 10 + TypeScript 5.6 (Node.js 20 LTS) |
+| **Backend** | NestJS 10 + TypeScript 5.6 (Node.js 26) |
 | **Frontend** | Next.js 16 (App Router) + React 19 |
 | **UI** | shadcn/ui + Tailwind CSS 4 |
 | **ORM** | Prisma 5 |
@@ -18,7 +18,7 @@ Sistema web para el registro y control de pensionados de la **Oficina Nacional d
 
 ## Requisitos previos
 
-- Node.js 20.11+ LTS, pnpm 9+, Docker 24+, Git 2.40+
+- Node.js 26.2+ (recomendado usar `nvm`), pnpm 9+, Docker 24+, Git 2.40+
 
 ## Inicio rápido
 

@@ -9,7 +9,7 @@
 
 | Capa | Tecnología |
 |---|---|
-| Backend | NestJS 10 (Node.js 20 LTS) |
+| Backend | NestJS 10 (Node.js 26) |
 | ORM | Prisma 5 |
 | Base de datos | MySQL 8.0 / MariaDB 10.11+ |
 | Cache | Redis 7 |
