@@ -9,9 +9,9 @@
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "build:check": "tsc -p tsconfig.build.json --listEmittedFiles",
     "dev": "nest start --watch",
-    "start": "node dist/main.js",
-    "start:prod": "cross-env NODE_ENV=production node dist/main.js",
-    "start:dev": "node dist/main.js",
+    "start": "cross-env TS_NODE_PROJECT=tsconfig.runtime.json node -r tsconfig-paths/register dist/main.js",
+    "start:prod": "cross-env NODE_ENV=production TS_NODE_PROJECT=tsconfig.runtime.json node -r tsconfig-paths/register dist/main.js",
+    "start:dev": "cross-env TS_NODE_PROJECT=tsconfig.runtime.json node -r tsconfig-paths/register dist/main.js",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
@@ -79,6 +79,7 @@
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.1",
     "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2"
   }

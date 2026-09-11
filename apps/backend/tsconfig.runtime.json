@@ -1,0 +1,15 @@
+{
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["dist/*"],
+      "@common/*": ["dist/common/*"],
+      "@modules/*": ["dist/modules/*"],
+      "@config/*": ["dist/config/*"],
+      "@shared/*": ["dist/shared/*"]
+    }
+  }
+}
